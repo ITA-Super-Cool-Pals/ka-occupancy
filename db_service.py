@@ -71,8 +71,8 @@ def get_rooms():
 
         def get_guest_name(guest_id):
             for guest in guests:
-                if guest['GuestId'] == guest_id:
-                    return guest['Name']
+                if guest['guestId'] == guest_id:
+                    return guest['name']
             return 'Unknown'
 
 
