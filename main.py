@@ -20,7 +20,7 @@ def create_occupancy():
     # Checkout is missing, but should still be a key
     occupancy = request.json
     db_service.create_occupancy(occupancy)
-    return jsonify(occupancy)
+    return "Occupancy created", 201
 
 # Update check-out date for an occupancy
 @app.route('/occupancy/<int:row_id>', methods=['PATCH'])
@@ -31,8 +31,16 @@ def update_occupancy(row_id):
     # }
     occupancy = request.json
     db_service.update_occupancy(occupancy, row_id)
-    return jsonify(occupancy)
-        
+    return "Occupancy updated", 200
+
+
+# List all occupied rooms
+@app.route('/occupancy/rooms', methods=['GET'])
+def get_occupied_rooms():
+    occupied = db_service.get_rooms()
+
+    return jsonify(occupied)
+
 
 
 if __name__ == '__main__':

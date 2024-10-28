@@ -41,15 +41,43 @@ def get_occupancies():
     return occupancies
 
 
+# Create a new occupancy
 def create_occupancy(occupancy):
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
-        cur.execute('INSERT INTO occupancy (BookingId, RoomId, GuestId, CheckIn, CheckOut) VALUES (?, ?, ?, ?, ?)',
-                    (occupancy['BookingId'], occupancy['RoomId'], occupancy['GuestId'], occupancy['CheckIn'], occupancy['CheckOut']))
+        cur.execute('INSERT INTO occupancy (BookingId, RoomId, GuestId, CheckIn) VALUES (?, ?, ?, ?)',
+                    (occupancy['BookingId'], occupancy['RoomId'], occupancy['GuestId'], occupancy['CheckIn']))
+    
+    return True
         
+    
+
+# Update the check-out date for a specific occupancy
 def update_occupancy(field, row_id):
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
         cur.execute('UPDATE occupancy SET CheckOut = ? WHERE RowId = ?', (field['CheckOut'], row_id))
 
+    return True
+
+
+def get_rooms():
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute('SELECT RoomId, GuestId FROM occupancy WHERE CheckOut IS NULL')
+        rows = cur.fetchall()
+
+        guests = requests.get('http://ka-guests:5000/guests').json()
+
+        def get_guest_name(guest_id):
+            for guest in guests:
+                if guest['GuestId'] == guest_id:
+                    return guest['Name']
+            return 'Unknown'
+
+
+
+        rooms = [{"RoomId": row[0], "GuestName": get_guest_name(row[1])} for row in rows]
+
+    return rooms
     
