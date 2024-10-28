@@ -39,7 +39,7 @@ def update_occupancy(row_id):
 def get_occupied_rooms():
     occupied = db_service.get_rooms()
 
-    return jsonify(occupied)
+    return jsonify(occupied), 200
 
 
 
