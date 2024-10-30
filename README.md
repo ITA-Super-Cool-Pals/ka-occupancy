@@ -2,7 +2,7 @@
 Occupancy microservice for Hotel Kong Arthur
 
 ```
-docker build -t ka-occupancy
+docker build -t ka-occupancy https://github.com/ITA-Super-Cool-Pals/ka-occupancy.git#main
 ```
 
 ```
