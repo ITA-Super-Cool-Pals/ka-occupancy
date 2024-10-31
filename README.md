@@ -1,6 +1,14 @@
 # ka-occuppancy
 Occupancy microservice for Hotel Kong Arthur
 
+```
+docker build -t ka-occupancy https://github.com/ITA-Super-Cool-Pals/ka-occupancy.git#main
+```
+
+```
+docker run --rm -p 5005:5000 -v ./ka-app:/app/app-db --name -ka-reviews -d ka-reviews
+```
+
 ## API Endpoints
 ### Se alle data points
  - **URL:** `/occupancy`
